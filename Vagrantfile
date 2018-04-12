@@ -66,10 +66,17 @@ Vagrant.configure("2") do |config|
     echo "%yclian ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/yclian
 
     apt-get update
-    apt-get install -y build-essential python3.6 virtualbox xfce4 xfce4-terminal
+    apt-get install -y build-essential curl net-tools snapd xfce4 xfce4-terminal \
+      docker libvirt-bin qemu-kvm \
+      python3.6
 
     snap install kubectl --classic
     curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-kvm2 && chmod +x docker-machine-driver-kvm2 && sudo mv docker-machine-driver-kvm2 /usr/bin/
+    addgroup libvirtd
+    adduser yclian libvirtd
+    minikube config set vm-driver kvm2
+
     pip install install awscli
     npm install -g yarn
 
