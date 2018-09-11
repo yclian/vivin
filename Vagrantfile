@@ -70,6 +70,8 @@ Vagrant.configure("2") do |config|
       docker libvirt-bin qemu-kvm \
       git python3.6
 
+    # Kubernetes, Minikube, KOPS, Helm, etc.
+
     snap install kubectl --classic
     curl -LO minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
     curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-kvm2 && chmod +x docker-machine-driver-kvm2 && sudo mv docker-machine-driver-kvm2 /usr/bin/
@@ -85,9 +87,13 @@ Vagrant.configure("2") do |config|
       mv linux-amd64/helm /usr/local/bin/helm && \
       rm -rf linux-amd64
 
-    pip install install awscli
-    npm install -g yarn
+    # Cloud utilities
 
+    pip install install awscli
+
+    # Other utilities and language tools.
+
+    npm install -g yarn
     su -c "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash" yclian
     
   SHELL
