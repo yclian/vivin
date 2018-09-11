@@ -66,16 +66,24 @@ Vagrant.configure("2") do |config|
     echo "%yclian ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/yclian
 
     apt-get update
-    apt-get install -y build-essential curl net-tools snapd xfce4 xfce4-terminal \
+    apt-get install -y build-essential curl net-tools screen snapd xfce4 xfce4-terminal \
       docker libvirt-bin qemu-kvm \
-      python3.6
+      git python3.6
 
     snap install kubectl --classic
-    curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+    curl -LO minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
     curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-kvm2 && chmod +x docker-machine-driver-kvm2 && sudo mv docker-machine-driver-kvm2 /usr/bin/
     addgroup libvirtd
     adduser yclian libvirtd
     minikube config set vm-driver kvm2
+
+    curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64 && \
+      chmod +x kops-linux-amd64 && \
+      mv kops-linux-amd64 /usr/local/bin/kops
+
+    curl https://storage.googleapis.com/kubernetes-helm/helm-v2.8.2-linux-amd64.tar.gz | tar xvz && \
+      mv linux-amd64/helm /usr/local/bin/helm && \
+      rm -rf linux-amd64
 
     pip install install awscli
     npm install -g yarn
